@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js",
+    "login": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests/loginTest.js",
+    "cadastro": "./node_modules/mocha/bin/mocha --timeout=30000 ./tests/cadastroTest.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,8 @@
   "homepage": "https://github.com/cicinth/automacao#readme",
   "keywords": [],
   "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
     "puppeteer": "^5.3.1",
     "puppeteer-core": "^5.3.1"
   }

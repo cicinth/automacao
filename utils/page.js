@@ -14,12 +14,13 @@ async function getPage(browser){
         width: 1220, 
         height: 880
     })
-    
+    await page.setDefaultTimeout(10000);
+    await page.setDefaultNavigationTimeout(20000);
     return page;
 }
 
 async function openUrl(page, url){
-    page.goto(url,{ "waitUntil": "networkidle2"});
+    page.goto(url,{ waitUntil: "networkidle2"});
 }
 
 async function closePage(browser){

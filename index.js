@@ -1,6 +1,6 @@
 const tests = require('./tests');
 
 (async () => {
-  await tests.cadastroONG();
-
+  await tests.cadastro();
+  await tests.login();
 })();
