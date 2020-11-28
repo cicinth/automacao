@@ -12,7 +12,7 @@ async function getPage(browser){
     var page = await browser.newPage();
     await page.setViewport({
         width: 1220, 
-        height: 880
+        height: 780
     })
     await page.setDefaultTimeout(10000);
     await page.setDefaultNavigationTimeout(20000);

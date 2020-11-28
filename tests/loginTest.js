@@ -1,4 +1,3 @@
-const puppeteer = require('puppeteer');
 const utils = require('../utils/utils');
 const pageFile = require('../utils/page');
 const elements = require('../pages/loginPage');

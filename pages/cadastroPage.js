@@ -15,6 +15,9 @@ const cadastroscreenVoluntario = './screenshots/cadastroVoluntarioTest/cadasto.p
 const cadastroscreenONGVoluntario = './screenshots/cadastroONGVoluntarioTest/cadasto.png';
 const registrarButton = "//a[contains(text(), concat('Registrar', ''))]";
 
+//When id is available use #idName
+//When class is available use .className
+
 module.exports = {
     website, homeCadastroButton, nomeInput, 
     homescreenONG, homescreenVoluntario, homescreenONGVoluntario,

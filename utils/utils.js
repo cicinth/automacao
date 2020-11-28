@@ -1,23 +1,52 @@
-const puppeteer = require('puppeteer');
+const expect = require('chai').expect;
 
     async function screenshot(page, elementPath){
         await page.screenshot({path: elementPath});
     }
 
+    //wait options
     async function waitMilliseconds(page, milliseconds){
         await page.waitForTimeout(milliseconds);
     }
 
-    async function waitObject(page, obj){
-        await page.waitFor(obj);
+    async function waitObjectXPath(page, obj){
+        await page.waitForXPath(obj);
     }
 
+    async function waitObject(page, obj){
+        await page.waitForSelector(obj);
+    }
+
+    async function waitObjectDisappear(page, obj){
+        await page.waitForSelector(obj, {
+            hidden: true, 
+            timeout: 3000
+        });
+    }
+
+    //Elements interaction
     async function type(page, obj, text){
-        await page.type(obj, text, {delay:100});
+        try{
+            waitObject(page, obj)
+            await page.type(obj, text, {delay:10});
+        }
+        catch(error){
+            throw new Error(`Elemento não encontrado: ${obj}`);
+        }
     }
 
     async function click(page, obj){
-        await page.click(obj);
+        try{
+            waitObject(page, obj)
+            await page.click(obj);
+        }
+        catch(error){
+            throw new Error(`Elemento não encontrado: ${obj}`);
+        }
+    }
+
+    async function clickCheckBox(page, obj){
+        await page.click(obj, {clickCount: 1});
     }
 
     async function clickXPath(page, xPath){
@@ -34,6 +63,36 @@ const puppeteer = require('puppeteer');
         await page.select(selector, option);
     }
 
+    //retrive from page
+    async function getElementText(page, selector){
+        let text
+        text = await page.$eval(selector, element => element.textContent);
+        return text;
+    }
+
+    async function getCountElement(page, selector){
+        //this will count the elements on <p> for example
+        let count
+        text = await page.$$eval(selector, element => element.length);//$$eval means more than one element
+        return count;
+    }
+
+    //Validation
+    async function assertion(obj, expectedValidation){
+        expect(obj).to.be.a("string", expectedValidation);
+    }
+
+    async function assertionContains(obj, expectedValidation){
+        expect(obj).to.be.include(expectedValidation);
+    }
+
+    async function assertionCount(obj, expectedValidation){
+        expect(obj).to.equal(expectedValidation);
+    }
+
 module.exports = {
-    screenshot, waitMilliseconds,waitObject,type,click,clickXPath,keyBoardType, selectOption
+    screenshot, waitMilliseconds, waitObject, waitObjectXPath, waitObjectDisappear,
+    type, click, clickCheckBox, clickXPath, keyBoardType, selectOption, 
+    getElementText, getCountElement,
+    assertion, assertionContains
 };
