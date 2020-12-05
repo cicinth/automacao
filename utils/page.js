@@ -11,12 +11,19 @@ async function getBrowser(){
 async function getPage(browser){
     var page = await browser.newPage();
     await page.setViewport({
-        width: 1220, 
-        height: 780
+        width: 1366, 
+        height: 768
     })
-    await page.setDefaultTimeout(10000);
+    await page.setDefaultTimeout(20000);
     await page.setDefaultNavigationTimeout(20000);
+    
     return page;
+}
+
+async function configAlert(page){
+    page.on('dialog', async dialog => {
+        dialog.accept();
+    });
 }
 
 async function openUrl(page, url){
@@ -28,5 +35,5 @@ async function closePage(browser){
 }
 
 module.exports = {
-    getBrowser,getPage,openUrl,closePage
+    getBrowser,getPage,openUrl,closePage, configAlert
 };

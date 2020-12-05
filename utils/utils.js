@@ -25,6 +25,16 @@ const expect = require('chai').expect;
     }
 
     //Elements interaction
+    async function scrollDown(page){
+        try{
+            waitMilliseconds(page, 2000);
+            await autoScroll(page);
+        }
+        catch(error){
+            throw new Error(`Página não encontrada: ${page}`);
+        }
+    }
+   
     async function type(page, obj, text){
         try{
             waitObject(page, obj)
@@ -63,6 +73,12 @@ const expect = require('chai').expect;
         await page.select(selector, option);
     }
 
+    async function closePopUp(page){
+        await page.on('dialog', async dialog => {
+            await dialog.accept();
+        });
+    }
+
     //retrive from page
     async function getElementText(page, selector){
         let text
@@ -75,6 +91,18 @@ const expect = require('chai').expect;
         let count
         text = await page.$$eval(selector, element => element.length);//$$eval means more than one element
         return count;
+    }
+
+    async function getDialogText(page){
+        var message
+        await waitMilliseconds(page,5000);
+        page.on('dialog', async dialog => {
+            //console.log(dialog.message());
+            //page.waitForSelector(dialog);
+            message = dialog.message();
+            dialog.accept();
+        });
+        return message;
     }
 
     //Validation
@@ -92,7 +120,7 @@ const expect = require('chai').expect;
 
 module.exports = {
     screenshot, waitMilliseconds, waitObject, waitObjectXPath, waitObjectDisappear,
-    type, click, clickCheckBox, clickXPath, keyBoardType, selectOption, 
-    getElementText, getCountElement,
-    assertion, assertionContains
+    scrollDown, type, click, clickCheckBox, clickXPath, keyBoardType, selectOption, closePopUp,
+    getElementText, getCountElement, getDialogText, 
+    assertion, assertionContains, assertionCount
 };
